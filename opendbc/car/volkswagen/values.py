@@ -21,19 +21,27 @@ Button = namedtuple('Button', ['event_type', 'can_addr', 'can_msg', 'values'])
 class CanBus(CanBusBase):
   def __init__(self, CP=None, fingerprint=None) -> None:
     super().__init__(CP, fingerprint)
-    self._is_meb = CP is not None and CP.flags & VolkswagenFlags.MEB
+
+    if CP is not None:
+      self._is_meb = CP.flags & VolkswagenFlags.MEB
+      self._is_gateway_harness = CP.networkLocation == NetworkLocation.gateway
+    else:
+      self._is_meb = False
+      self._is_gateway_harness = False
+
+    self.bus_offset = 2 if self._is_gateway_harness and not self._is_meb else 0
 
   @property
   def main(self) -> int:
-    return 1 if self._is_meb else self.offset
+    return 2
 
   @property
   def aux(self) -> int:
-    return 1 if self._is_meb else self.offset + 1
+    return self.bus_offset + 1
 
   @property
   def camera(self) -> int:
-    return 1 if self._is_meb else self.offset + 2
+    return self.bus_offset + 2
 
 
 class CarControllerParams:
