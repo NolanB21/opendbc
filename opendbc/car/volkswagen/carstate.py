@@ -415,6 +415,7 @@ class CarState(CarStateBase):
       ("Airbag_02", 5),           # From J234 Airbag control module
       ("Motor_14", 10),           # From J623 Engine control module
       ("Motor_16", 2),            # From J623 Engine control module
+      ("Motor_54", 10),           # From J623 Engine control module (accelerator pressure)
       ("Blinkmodi_02", 1),        # From J519 BCM (sent at 1Hz when no lights active, 50Hz when active)
       ("LH_EPS_03", 100),         # From J500 Steering Assist with integrated sensors
       ("ZV_02", 5),               # From ZV
