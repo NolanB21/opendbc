@@ -1,10 +1,15 @@
 import numpy as np
+import aenum
 from opendbc.can.parser import CANParser
 from opendbc.car import Bus, structs
 from opendbc.car.interfaces import CarStateBase
 from opendbc.car.common.conversions import Conversions as CV
 from opendbc.car.volkswagen.values import DBC, CanBus, NetworkLocation, TransmissionType, GearShifter, \
                                                       CarControllerParams, VolkswagenFlags
+
+# The 'aux' bus might not be defined on older openpilot versions, patch it in if needed
+if not hasattr(Bus, 'aux'):
+  aenum.extend_enum(Bus, 'aux')
 
 ButtonType = structs.CarState.ButtonEvent.Type
 
